@@ -16,27 +16,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
-
-# Adicionando uma url para o catalog
 from django.conf.urls import include
-from django.urls import path
-
-urlpatterns += [
-    path('catalog/', include('catalog.urls')),
-]
-
-# Redirecionando a raiz da url para o catalogo
 from django.views.generic import RedirectView
-urlpatterns += [
-    path('', RedirectView.as_view(url='/catalog/')),
-]
-
-# Vinculando artigos staticos ao django
 from django.conf import settings
 from django.conf.urls.static import static
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # Adicionando uma url para o catalog
+    path('catalog/', include('catalog.urls')),
+    # Redirecionando a raiz da url para o catalogo
+    path('', RedirectView.as_view(url='/catalog/', permanent=True)),
+    # Vinculando artigos staticos ao django
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
