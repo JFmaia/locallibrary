@@ -60,3 +60,21 @@ class BookInstance(models.Model):
     def __str__(self):
         """Retorna uma string que representa o livro."""
         return f'{self.id} ({self.book.title})'
+
+class Author(models.Model):
+    """Esse model representa o autor do livro"""
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_death = models.DateField('Died', null=True, blank=True)
+
+    class Meta:
+        ordering = ['last_name', 'first_name']
+
+    def get_absolute_url(self):
+        """Retorna a url para acessar um registro de detalhes do autor."""
+        return reverse('author-detail', args=[str(self.id)])
+
+    def __str__(self):
+        """Retorna uma string que representa o autor."""
+        return f'{self.last_name}, {self.first_name}'
