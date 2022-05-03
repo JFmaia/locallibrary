@@ -14,6 +14,7 @@ class Book(models.Model):
 
     # Chave Estrangeira usada porque livro só pode ter um autor, mas autores podem ter vários livros
     # Autor como uma sequência em vez de objeto porque ele ainda não foi declarado no arquivo.
+    # on_delete=models.SET_NULL: se o autor for excluído, coloca null.
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
 
     summary = models.TextField(max_length=1000, help_text='Digite um resumo do livro')
@@ -29,3 +30,4 @@ class Book(models.Model):
     def get_absolute_url(self):
         """Retorna a url para acessar um registro de detalhes para este livro."""
         return reverse('book-detail', args=[str(self.id)])
+
