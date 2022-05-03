@@ -78,3 +78,11 @@ class Author(models.Model):
     def __str__(self):
         """Retorna uma string que representa o autor."""
         return f'{self.last_name}, {self.first_name}'
+
+class Language(models.Model):
+    """Modelo representando um idioma (por exemplo, inglês, francês, japonês etc.)"""
+    name = models.CharField(max_length=200,
+                            help_text="Insira o idioma natural do livro (por exemplo, inglês, francês, japonês etc.)")
+
+    def __str__(self):
+        return self.name
