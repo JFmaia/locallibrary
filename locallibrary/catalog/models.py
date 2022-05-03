@@ -24,6 +24,7 @@ class Book(models.Model):
     # ManyToManyField usado porque o gênero pode conter muitos livros. Os livros podem cobrir muitos gêneros.
     # Classe de gênero já foi definida para que possamos especificar o objeto acima.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
+    language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.title
