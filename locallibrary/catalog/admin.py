@@ -6,6 +6,8 @@ from catalog.models import Author, Genre, Book, BookInstance, Language
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
+    # O atributo fields lista apenas os campos que devem ser exibidos no formulário, em ordem.
+    fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
 
 # Registre as aulas de Administração para Livro usando o decorador
 @admin.register(Book)
