@@ -10,7 +10,7 @@ class AuthorAdmin(admin.ModelAdmin):
 # Registre as aulas de Administração para Livro usando o decorador
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'author', 'display_genre')
 
 # Registre as classes de administração para BookInstance usando o decorador
 @admin.register(BookInstance)
