@@ -2,8 +2,20 @@ from django.contrib import admin
 from catalog.models import Author, Genre, Book, BookInstance, Language
 
 # Registrando os odelos aqui.
-admin.site.register(Book)
-admin.site.register(Author)
+# Definindo a classe Author com o decorador @admin.register
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
+
+# Registre as aulas de Administração para Livro usando o decorador
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    pass
+
+# Registre as classes de administração para BookInstance usando o decorador
+@admin.register(BookInstance)
+class BookInstanceAdmin(admin.ModelAdmin):
+    pass
+
 admin.site.register(Genre)
-admin.site.register(BookInstance)
 admin.site.register(Language)
