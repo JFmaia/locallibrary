@@ -27,6 +27,7 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
+    paginate_by = 10
     context_object_name = 'book_list'  # seu próprio nome para a lista como uma variável de modelo
     queryset = model.objects.all()  # lista de 5 livros
     template_name = 'book_list.html'  # Especifique seu próprio nome/localização do modelo
