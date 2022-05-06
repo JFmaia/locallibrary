@@ -13,6 +13,7 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre')
+    inlines = [BookInstanceInline]
 
 # Registre as classes de administração para BookInstance usando o decorador
 @admin.register(BookInstance)
@@ -27,6 +28,10 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('status', 'due_back')
         }),
     )
+
+#adicionando BookInstance informações inline para o nosso Book detalhe!
+class BooksInstanceInline(admin.TabularInline):
+    model = BookInstance
 
 admin.site.register(Genre)
 admin.site.register(Language)
