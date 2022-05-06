@@ -27,16 +27,10 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
-    context_object_name = 'my_book_list'  # seu próprio nome para a lista como uma variável de modelo
+    context_object_name = 'book_list'  # seu próprio nome para a lista como uma variável de modelo
+    queryset = model.objects.all()  # lista de 5 livros
+    template_name = 'book_list.html'  # Especifique seu próprio nome/localização do modelo
 
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='Dom')[:5] # Obtenha 5 livros contendo o título 'Dom'
-
-    def get_context_data(self, **kwargs):
-        # Chame a implementação base primeiro para obter o contexto
-        context = super(BookListView, self).get_context_data(**kwargs)
-        # Crie quaisquer dados e adicione-os ao contexto
-        context['some_data'] = 'This is just some data'
-        return context
-        
-    template_name = 'books/my_arbitrary_template_name_list.html'  # Especifique seu próprio nome/localização do modelo
+class BookDetailView(generic.DetailView):
+    model = Book
+    template_name = 'book_detail.html'
