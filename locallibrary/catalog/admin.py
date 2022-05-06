@@ -9,6 +9,10 @@ class AuthorAdmin(admin.ModelAdmin):
     # O atributo fields lista apenas os campos que devem ser exibidos no formulário, em ordem.
     fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
 
+#adicionando BookInstance informações inline para o nosso Book detalhe!
+class BooksInstanceInline(admin.TabularInline):
+    model = BookInstance
+    
 # Registre as aulas de Administração para Livro usando o decorador
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -29,9 +33,7 @@ class BookInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
-#adicionando BookInstance informações inline para o nosso Book detalhe!
-class BooksInstanceInline(admin.TabularInline):
-    model = BookInstance
+
 
 admin.site.register(Genre)
 admin.site.register(Language)
