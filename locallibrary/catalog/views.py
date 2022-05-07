@@ -35,3 +35,13 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
     template_name = 'book_detail.html'
+
+class AuthorListView(generic.ListView):
+    model = Author
+    context_object_name = 'author_list'  # seu próprio nome para a lista como uma variável de modelo
+    queryset = model.objects.all()  # todos os autores
+    template_name = 'author_list.html'  # Especifique seu próprio nome/localização do modelo
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    template_name = 'author_detail.html'
