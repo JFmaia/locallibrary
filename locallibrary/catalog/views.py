@@ -15,14 +15,19 @@ def index(request):
     # A funcionalidade All() é implementada por default.
     num_authors = Author.objects.count()
 
+    # Número de visitas a essa visão, conforme contado na variável sessão.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
+        'num_visits': num_visits,
     }
 
-    # Renderize o modelo HTML index.html com os dados na variável de contexto
+    # Renderização da página index.html com o contexto context disponivel.
     return render(request, 'index.html', context=context)
 
 class BookListView(generic.ListView):
