@@ -1,21 +1,25 @@
-from django import forms
 import datetime
 from django.core.exceptions import ValidationError
-from django.utils.translation import ugettext_lazy as _
+from django.forms import ModelForm
+from catalog.models import BookInstance
 
-class RenewBookForm(forms.Form):
-    renewal_date = forms.DateField(help_text="Digite uma data entre agora e 4 semanas (padrão 3).")
+class RenewBookModelForm(ModelForm):
+    def clean_due_back(self):
+       data = self.cleaned_data['due_back']
 
-    def clean_renewal_date(self):
-        data = self.cleaned_data['renewal_date']
+       # Check if a date is not in the past.
+       if data < datetime.date.today():
+           raise ValidationError(('Invalid date - renewal in past'))
 
-        # Verifica se um encontro não é no passado.
-        if data < datetime.date.today():
-            raise ValidationError(_('Data inválida - renovação no passado'))
+       # Check if a date is in the allowed range (+4 weeks from today).
+       if data > datetime.date.today() + datetime.timedelta(weeks=4):
+           raise ValidationError(('Invalid date - renewal more than 4 weeks ahead'))
 
-        # Verifique se uma data está na faixa permitida (+4 semanas a partir de hoje).
-        if data > datetime.date.today() + datetime.timedelta(weeks=4):
-            raise ValidationError(_('Data inválida - renovação com mais de 4 semanas pela frente'))
+       # Remember to always return the cleaned data.
+       return data
 
-        # Lembre-se de sempre devolver os dados limpos.
-        return data
+    class Meta:
+        model = BookInstance
+        fields = ['due_back']
+        labels = {'due_back': ('Renewal date')}
+        help_texts = {'due_back': ('Enter a date between now and 4 weeks (default 3).')}
