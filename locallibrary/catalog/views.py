@@ -77,12 +77,12 @@ def renew_book_librarian(request, pk):
     if request.method == 'POST':
 
         # Crie uma instância de formulário e preencha-a com dados da solicitação (vinculação):
-        form = RenewBookForm(request.POST)
+        form = RenewBookModelForm(request.POST)
 
         # Verifique se o formulário é válido:
         if form.is_valid():
             # processe os dados em form.cleaned_data conforme necessário (aqui nós apenas escrevemos para o modelo due_back campo)
-            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.due_back = form.cleaned_data['due_back']
             book_instance.save()
 
             # redirecionar para uma nova URL:
@@ -91,7 +91,7 @@ def renew_book_librarian(request, pk):
     # Se for um GET (ou qualquer outro método) crie o formulário padrão.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
+        form = RenewBookModelForm(initial={'Renewal date': proposed_renewal_date})
 
     context = {
         'form': form,
@@ -115,3 +115,11 @@ class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
     template_name ='author_confirm_delete.html'
+
+class LoanedAllBooksListView(LoginRequiredMixin,generic.ListView):
+    """Lista de exibição genérica baseada em classe listando livros emprestados de todos os usuarios."""
+    model = BookInstance
+    template_name ='bookinstance_all_list.html'
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(status__exact='e').order_by('due_back')
