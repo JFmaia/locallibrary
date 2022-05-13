@@ -123,3 +123,19 @@ class LoanedAllBooksListView(LoginRequiredMixin,generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(status__exact='e').order_by('due_back')
+
+
+class BookCreate(CreateView):
+    model = Book
+    fields = '__all__'
+    template_name ='book_form.html'
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = '__all__'
+    template_name ='book_form.html'
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('authors')
+    template_name ='author_confirm_delete.html'
